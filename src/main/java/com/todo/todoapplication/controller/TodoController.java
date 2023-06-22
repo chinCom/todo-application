@@ -16,6 +16,11 @@ import java.util.Optional;
 @Controller
 public class TodoController {
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
+
     @Autowired
     private final TodoServices services;
 
@@ -37,6 +42,17 @@ public class TodoController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String addTask(@ModelAttribute TodoDB todoTask) {
+        // Capitalize the first character in title column
+        StringBuilder title = new StringBuilder(todoTask.getTitle());
+        title.setCharAt(0, Character.toUpperCase(title.charAt(0)));//set first character to uppercase
+
+        // Capitalize the first character in description column
+        StringBuilder description = new StringBuilder(todoTask.getDescription());
+        description.setCharAt(0, Character.toUpperCase(description.charAt(0)));
+
+        todoTask.setTitle(title.toString());
+        todoTask.setDescription(description.toString());
+
         TodoDB todoDB = services.save(todoTask);
         return "redirect:/";
     }
@@ -50,12 +66,23 @@ public class TodoController {
         return "redirect:/";
     }
 
+    // Warning
+    @RequestMapping(value = "/deleteAllTask", method = RequestMethod.POST)
+    public String deleteAllTask() {
+        services.deleteAll();
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "/taskCompleted", method = RequestMethod.GET)
     public String taskCompleted(@RequestParam("id") String id) {
         Optional<TodoDB> taskSetComplete = services.findById(Integer.parseInt(id));
-        taskSetComplete.ifPresent(todoDB -> {todoDB.setComplete(true); services.save(todoDB);});
+        taskSetComplete.ifPresent(todoDB -> {
+            todoDB.setComplete(true);
+            services.save(todoDB);
+        });
 
         return "redirect:/";
     }
+
 
 }

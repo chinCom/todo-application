@@ -28,6 +28,10 @@ public class TodoServices {
         repository.deleteById(id);
     }
 
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
     @Override
     public String toString() {
         return String.format("TodoServices [repository=%s]", repository);

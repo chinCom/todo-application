@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org">
+<html data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Todo Application</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="icon" href="/img/icons8-spring-boot.svg">
 </head>
 
 <body>
@@ -53,7 +54,7 @@
                         <input type="hidden" name="id" th:value="${todo.id}"/>
 
                         <button class="btn btn-danger" type="submit"
-                                style="margin-left: 4px;padding: 0 7px;">
+                                style="padding: 0 7px;">
                             Delete&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                              fill="currentColor"
                                              viewBox="0 0 16 16" class="bi bi-trash" style="font-size: 23px;">
@@ -62,7 +63,7 @@
                         </svg>
                         </button>
                         <a class="btn btn-primary" th:href="@{/taskCompleted(id=${todo.id})}"
-                           style="margin-right: 4px;padding: 0 5px;">
+                           style="margin-left: 4px;padding: 0 5px;">
                             Completed&nbsp;
                             <img src="/img/check-mark.png" style="width: 24px; margin-left: 4px" alt="check mark">
                         </a>
@@ -74,10 +75,10 @@
                 <td th:text="${todo.description}" class="text-center"
                     style="background: var(--bs-warning-border-subtle);"></td>
                 <td class="text-center" style="background: var(--bs-warning-border-subtle);">
-<!--                    <span th:if="${todo.isComplete} == true" th:text="Finished"></span>-->
-<!--                    <span th:unless="${todo.isComplete} == true" th:text="Unfinished"></span>-->
-                    <img th:if="${todo.isComplete} == true"  src="/img/check.png" width="34px" alt="finished">
-                    <img th:unless="${todo.isComplete} == true"  src="/img/puzzle.png" width="34px" alt="unfinished">
+                    <!--                    <span th:if="${todo.isComplete} == true" th:text="Finished"></span>-->
+                    <!--                    <span th:unless="${todo.isComplete} == true" th:text="Unfinished"></span>-->
+                    <img th:if="${todo.isComplete} == true" src="/img/check.png" width="34px" alt="finished">
+                    <img th:unless="${todo.isComplete} == true" src="/img/puzzle.png" width="34px" alt="unfinished">
                 </td>
                 <td th:text="${todo.localDateTime}" class="text-center"
                     style="background: var(--bs-warning-border-subtle);">
@@ -89,7 +90,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <a class="btn btn-outline-success" href="/addTask">Create A Todo
+            <a class="btn btn-outline-success" href="/addTask">Create A Task
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
                      class="bi bi-file-plus" style="font-size: 31px;">
                     <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z"></path>
@@ -98,8 +99,39 @@
             </a>
 
         </div>
+        <div class="col">
+            <button class="btn btn-outline-success" href="/addTask" type="button" data-bs-toggle="modal"
+                    data-bs-target="#deleteAllTask">
+                Delete All Task
+                <img src="/img/delete.png" alt="Delete All Task Icon" style="width: 30px;margin-left: 6px;">
+            </button>
+            <div id="deleteAllTask" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 id="exampleModalLabel" class="fs-5 modal-title"
+                                style="color: var(--bs-form-invalid-border-color);">Delete All Task</h1>
+                            <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 style="color: var(--bs-danger);">Are you sure to delete all task?</h1>
+                        </div>
+                        <div class="modal-footer">
+                            <form th:action="@{/deleteAllTask}" method="post">
+                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                                <button class="btn btn-primary" type="submit">Sure</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out" />
+</form>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
