@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Todo Application</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container" style="padding-top: 11px;padding-bottom: 11px;">
+    <header>
+        <h1>
+            <span style="color: rgb(139, 195, 74);">Spring Boot 3</span>
+            <img src="/img/icons8-spring-boot.svg"
+                 alt="Icon Spring Boot"> - <span style="color: rgb(33, 69, 105);">Todo Application
+            </span>
+        </h1>
+    </header>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-center"
+                    style="color: var(--bs-info-text-emphasis);background: rgb(139,195,74);border-color: var(--bs-green);">
+                    Action
+                </th>
+                <th class="text-center"
+                    style="color: var(--bs-info-text-emphasis);background: rgb(139,195,74);border-color: var(--bs-green);">
+                    Title
+                </th>
+                <th class="text-center"
+                    style="color: var(--bs-info-text-emphasis);background: rgb(139,195,74);border-color: var(--bs-green);">
+                    Description
+                </th>
+                <th class="text-center"
+                    style="color: var(--bs-info-text-emphasis);background: rgb(139,195,74);border-color: var(--bs-green);">
+                    Is Complete
+                </th>
+                <th class="text-center"
+                    style="color: var(--bs-info-text-emphasis);background: rgb(139,195,74);border-color: var(--bs-green);">
+                    Created AT
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="todo : ${todoItems}">
+                <td style="background: var(--bs-warning-border-subtle);" class="d-flex">
+                    <!--Delete task-->
+                    <form th:action="@{/deleteTask}" method="post" class="d-flex">
+                        <!-- Pass the todo.id as a hidden input field -->
+                        <input type="hidden" name="id" th:value="${todo.id}"/>
+
+                        <button class="btn btn-danger" type="submit"
+                                style="margin-left: 4px;padding: 0 7px;">
+                            Delete&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                             fill="currentColor"
+                                             viewBox="0 0 16 16" class="bi bi-trash" style="font-size: 23px;">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
+                        </svg>
+                        </button>
+                        <a class="btn btn-primary" th:href="@{/taskCompleted(id=${todo.id})}"
+                           style="margin-right: 4px;padding: 0 5px;">
+                            Completed&nbsp;
+                            <img src="/img/check-mark.png" style="width: 24px; margin-left: 4px" alt="check mark">
+                        </a>
+                    </form>
+
+                </td>
+                <td th:text="${todo.title}" class="text-center"
+                    style="background: var(--bs-warning-border-subtle);"></td>
+                <td th:text="${todo.description}" class="text-center"
+                    style="background: var(--bs-warning-border-subtle);"></td>
+                <td class="text-center" style="background: var(--bs-warning-border-subtle);">
+<!--                    <span th:if="${todo.isComplete} == true" th:text="Finished"></span>-->
+<!--                    <span th:unless="${todo.isComplete} == true" th:text="Unfinished"></span>-->
+                    <img th:if="${todo.isComplete} == true"  src="/img/check.png" width="34px" alt="finished">
+                    <img th:unless="${todo.isComplete} == true"  src="/img/puzzle.png" width="34px" alt="unfinished">
+                </td>
+                <td th:text="${todo.localDateTime}" class="text-center"
+                    style="background: var(--bs-warning-border-subtle);">
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-outline-success" href="/addTask">Create A Todo
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
+                     class="bi bi-file-plus" style="font-size: 31px;">
+                    <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z"></path>
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"></path>
+                </svg>
+            </a>
+
+        </div>
+    </div>
+</div>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
