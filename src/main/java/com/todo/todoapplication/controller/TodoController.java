@@ -40,7 +40,7 @@ public class TodoController {
         return "addTodo";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/addTask", method = RequestMethod.POST)
     public String addTask(@ModelAttribute TodoDB todoTask) {
         // Capitalize the first character in title column
         StringBuilder title = new StringBuilder(todoTask.getTitle());
