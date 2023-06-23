@@ -23,7 +23,7 @@ public class TodoDB {
     @Column(columnDefinition = "NVARCHAR(1000)")
     private String description;
 
-    private LocalDateTime localDateTime = LocalDateTime.now();
+    private LocalDateTime localDateTime = LocalDateTime.now(new Zone().getZoneId());
 
     private boolean isComplete;
 
